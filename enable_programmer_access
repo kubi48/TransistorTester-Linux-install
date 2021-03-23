@@ -1,0 +1,62 @@
+#!/bin/bash
+rules="90-atmel.rules"
+rules_path="-"	# no $rules found
+if [ -e ../Linux/$rules ] # check if $rules is in ../Linux , you are in any sample directory or in Linux
+then
+ rules_path="../Linux/"
+elif [ -e ./Linux/$rules ] # check, if you are in the trunk directory
+then
+ rules_path="./Linux/"
+elif [ -e ./Software/trunk/Linux/${rules} ] # check, if you are in the transistortester directory
+then
+ rules_path="./Software/trunk/Linux/"
+fi
+if [ ${rules_path} = "-" ] 
+then
+ echo "Error, File ${rules} not found, no entry in /etc/udev/rules.d/ !"
+else		# now we know the relative path to the $rules file and check for same
+ rdiffs=1
+ if [ -e /etc/udev/rules.d/${rules} ]
+ then  # there is a file with same name in /etc/udev/rules.d/
+  diff ${rules_path}${rules} /etc/udev/rules.d/${rules} > /dev/null
+  rdiffs=$?
+ fi
+ if [ ${rdiffs} -ne 0 ]
+ then   # copy is required, files are not the same
+   sudo cp ${rules_path}${rules} /etc/udev/rules.d/${rules}
+  if [ $? -eq 0 ]
+  then
+   sudo udevadm control --reload-rules
+   if [ $? -eq 0 ]
+   then
+    echo "New ${rules} file in /etc/udev/rules.d/ is activated now!"
+   else
+    echo "Could not activate the new ${rules} file in /etc/udev/rules.d, please reboot you system!"
+   fi
+  else
+   echo "Error, File ${rules} is not copied to /etc/udev/ruled.d/ !"
+  fi
+ else
+  echo "Identical file ${rules} already is at /etc/udev/rules.d/ , no action required."
+ fi
+fi
+groups | grep -e plugdev > /dev/null
+plug_mem=$?
+groups | grep -e dialout > /dev/null
+dial_mem=$?
+if [ ${plug_mem} -eq 0 ] && [ ${dial_mem} -eq 0 ]
+then
+ echo "User ${USER} is already member of the groups 'dialout' and 'plugdev', no action required."
+else  # you are not member of both groups, dialout and plugdev !
+ sudo usermod -a -G dialout,plugdev ${USER}
+ if [ $? -eq 0 ]
+ then
+  echo "The user ${USER} is added to the groups 'dialout' and 'plugdev'!"
+ else
+  echo "Error, could not add user ${USER} to the groups 'dialout' and 'plugdev', please try it otherwise!"
+ fi
+fi
+# Finally we list the USB-serial devices of your system with registered identification
+echo " "
+echo "List of USB-serial devices at your system:"
+ls -l /dev/serial/by-id/* | cut -c40-

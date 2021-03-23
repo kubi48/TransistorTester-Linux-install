@@ -1,0 +1,37 @@
+#!/bin/bash
+PackList="avrdude avr-libc binutils-avr gcc-avr git"
+IsInstall=1
+# First ty is to find apt-get to install, Debian or Ubuntu based
+which apt-get > /dev/null
+if [ $? -eq 0 ]
+then
+ sudo apt-get install ${PackList}
+ IsInstall=$?
+fi
+if [ ${IsInstall} -ne 0 ]
+then
+# Next try is to find the pacman package manager for Arch-Linux based systems
+ which pacman > /dev/null
+ if [ $? -eq 0 ]
+ then
+  sudo pacman -Sy
+  sudo pacman -S avrdude ${PackList}
+  IsInstall=$?
+ fi
+fi
+if [ ${IsInstall} -ne 0 ]
+then
+# Last try is to find the yum package manager for Fedora or RedHat based systems
+ which yum > / dev/null
+ if [ $? -eq 0 ]
+ then
+  sudo yum install ${PackList}
+  IsInstall=$?
+ fi
+fi
+if [ ${IsInstall} -ne 0 ]
+then
+ echo "Packages ${PackList} are not installed correctly, please check!"
+else
+ echo "The packages '${Packlist}' are istalled now,"
+fi

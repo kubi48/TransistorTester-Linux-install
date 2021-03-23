@@ -1,0 +1,58 @@
+#!/bin/bash
+#this script will download the latest TransistorTester source from github.com
+#The copy of the github archiv is  located in your local home directory
+# at the subdirectory git (can be changed by git_base variable).
+# You should not touch the downloaded files directly to enable
+# further updates from github.com.
+# Therefore a working directory is copied from the original source
+# to the directory MyTester (variable my_tt_source) 
+#
+####################################################################
+# The following two settings can be changed to any subdirectory    #
+# of your HOME directory ./                                        #
+git_base="git"
+my_tt_source="MyTester"
+####################################################################
+# The following two settings specify the package location at github:
+git_s_dir="mikrocontroller-net"
+git_s_name="transistortester"
+rules="90-atmel.rules"
+rules_path=`pwd`
+echo "I try to get the ${git_s_name} archiv with git:"
+mkdir -p ~/${gitbase}
+cd ~/${git_base}
+if [ -d ./${git_s_name} ]
+then
+ cd ./${git_s_name}
+ echo "Update the ~/${git_base}/${git_s_name} Archiv"
+ git pull
+else
+ echo "Create the ~/${git_base}/${git_s_name} Archiv"
+ git clone https://github.com/${git_s_dir}/${git_s_name}
+fi
+if [ $? -eq 0 ]
+then
+ mkdir -p ~/${my_tt_source}
+ rsync -auv ~/${git_base}/${git_s_name}/Software/trunk ~/${my_tt_source}
+ echo " "
+ echo "Your ./${my_tt_source} directory is updated with the actual TransistorTester source"
+ rdiffs=1
+ if [ -e /etc/udev/rules.d/${rules} ]
+ then  # there is a file with same name in /etc/udev/rules.d/
+  diff ${rules_path}/${rules} /etc/udev/rules.d/${rules} > /dev/null
+  rdiffs=$?
+ fi
+ if [ ${rdiffs} -ne 0 ]
+ then   # copy is required, files are not the same
+  echo "Please type 'make prac' to enable access to ISP-Programmers!"
+ fi
+ echo "You should change to one of the sample directories to build and and upload the firmware."
+ echo "cd ~/${my_tt_source}/trunk/mega320_st7565_kit   ;# for chinese kit with graphic display"
+ echo "cd ~/${my_tt_source}/trunk/mega320_color_kit    ;# for chinese kit with color display"
+ echo "cd ~/${my_tt_source}/trunk/mega328              ;# for standard tester with 2x16 char display"
+ echo "cd ~/${my_tt_source}/trunk/....                 ;# or any other directory with a matching Makefile"
+# echo "You can also create a new trunk/ subdirectory and copy a simular Makefile from a other directory"
+else
+ echo " "
+ echo "Error, the directory ~/${git_base}/${git_s_name} is not updated correctly!!"
+fi

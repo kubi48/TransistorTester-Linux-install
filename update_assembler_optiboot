@@ -1,0 +1,43 @@
+#!/bin/bash
+# This script will download the latest avr-assembler-optiboot from github.com
+# The copy of the github archiv is located in your local home directory
+# at the subdirectory git (can be changed by git_base variable).
+# You should not modify the downloaded files directly to enable
+# further updates from github.com.
+# Therefore a working directory is copied from the original source
+# to the directory MyOptiboot (variable my_tt_source) 
+#
+#################################################################
+#### you can change the following two settings with a editor ####
+git_base="git"              # default base for your github clones ./git
+my_opti_source="MyOptiboot" # default location of yout working copy
+#################################################################
+# the following two settings specify the github source!
+git_a_dir="kubi48"
+git_a_name="avr-assembler-optiboot"
+#
+echo "I try to get the ${git_a_name} archiv with git:"
+mkdir -p ~/${gitbase}
+cd ~/${git_base}
+if [ -d ./${git_a_name} ]
+then
+ cd ./${git_a_name}
+ echo "Update the ~/${git_base}/${git_a_name} Archiv"
+ git pull
+else
+ echo "Create the ~/${git_base}/${git_a_name} Archiv"
+ git clone https://github.com/${git_a_dir}/${git_a_name}
+fi
+if [ $? -eq 0 ]
+then
+ echo " "
+ echo "Update your local optiboot working copy of source"
+ mkdir -p ~/${my_opti_source}
+ rsync -auv ~/${git_base}/${git_a_name}/optiboot ~/${my_opti_source}
+ echo " "
+ echo "Your ./${my_opti_source} directory is updated with the actual Optiboot Bootloader source"
+ echo "You should type 'cd ~/${my_opti_source}/optiboot' and type 'make help' for next steps."
+else
+ echo " "
+ echo "Error, the directory '~/${git_base}/${git_a_name}' is not updated correctly!!"
+fi

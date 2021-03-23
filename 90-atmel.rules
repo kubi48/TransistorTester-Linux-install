@@ -1,0 +1,21 @@
+# Copy this file to /etc/udev/rules.d/90-atmel.rules or use the enable_programmers_access script
+# AVR ISP mkII - DIAMEX ALL-AVR
+SUBSYSTEM=="usb", ATTRS {idVendor}=="03eb", ATTRS {idProduct}=="2104", GROUP = "plugdev", MODE="0660",
+# Atmel AVR Dragon
+ATTRS {idVendor}=="03eb", ATTRS {idProduct}=="2107", GROUP="plugdev", MODE="0660"
+# Atmel-ICE
+SUBSYSTEM=="usb", ATTRS {idVendor}=="03eb", ATTRS {idProduct}=="2141", GROUP = "plugdev", MODE="0660",
+# xplained-mini
+SUBSYSTEM=="usb", ATTRS {idVendor}=="03eb", ATTRS {idProduct}=="2145", GROUP = "plugdev", MODE="0660",
+# avrftdi
+#SUBSYSTEM=="usb", ATTRS {idVendor}=="0403, ATTRS {idProduct}=="6010", GROUP = "plugdev", MODE="0660",
+# UM232H
+#SUBSYSTEM=="usb", ATTRS {idVendor}=="0403, ATTRS {idProduct}=="6014", GROUP = "plugdev", MODE="0660",
+# USB asp programmer
+ATTRS {idVendor}=="16c0", ATTRS {idProduct}=="05dc", GROUP="plugdev", MODE="0660"
+# USB NIBObee-Programmer
+ATTRS {idVendor}=="16c0", ATTRS {idProduct}=="092f", GROUP="plugdev", MODE="0660"
+# USBtiny programmer
+ATTRS {idVendor}=="1781", ATTRS {idProduct}=="0c9f", GROUP="plugdev", MODE="0660"
+# USB ISP-programmer für Atmel AVR
+SUBSYSTEM=="usb", ENV {DEVTYPE}=="usb_device", SYSFS {idVendor}=="16c0", SYSFS {idProduct} == "05dc", MODE="0660",
