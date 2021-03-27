@@ -1,0 +1,29 @@
+#!/bin/bash
+#this script will download the latest TransistorTester-Linux-install from github.com
+#The copy of the github archiv is  located in your local home directory
+# at the subdirectory git (can be changed by git_base variable).
+# You should not modify the downloaded files directly to enable
+# further updates from github.com.
+
+git_base="git"
+git_d_dir="kubi48"
+git_d_name="TransistorTester-Linux-install"
+echo "I try to get the ${git_d_name} archiv with git:"
+mkdir -p ~/${gitbase}
+cd ~/${git_base}
+if [ -d ./${git_d_name} ]
+then
+ cd ./${git_d_name}
+ echo "Update the ~/${git_base}/${git_d_name} Archiv"
+ git pull
+else
+ echo "Create the ~/${git_base}/${git_d_name} Archiv"
+ git clone https://github.com/${git_d_dir}/${git_d_name}
+fi
+if [ $? -eq 0 ]
+then
+ echo "Your '~/${git_base}/${git_d_name}' directory is updated with TransistorTester Linux installation scripts"
+else
+ echo " "
+ echo "Error, the directory '~/${git_base}/${git_d_name}' is not updated correctly!!"
+fi

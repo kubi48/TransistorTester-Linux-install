@@ -36,14 +36,16 @@ hilfe:
 /etc/udev/rules.d/90-atmel.rules: enable_programmer_access 90-atmel.rules
 	./enable_programmer_access
 
-tts:
+tt-s:
 	./update_ttester_source
-ttd:
+tt-d:
 	./update_ttester_docu
-tto:
+tt-o:
 	./update_ttester_old
-prac: /etc/udev/rules.d/90-atmel.rules
+tt-i:
+	./update_ttester_linux
+pr-ac: /etc/udev/rules.d/90-atmel.rules
 	
-asopti:
+as-opti:
 	./update_assembler_optiboot
 all:	help
