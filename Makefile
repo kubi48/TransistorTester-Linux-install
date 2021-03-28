@@ -5,8 +5,11 @@ help:
 	@echo "The default install location for all git archivs is"
 	@echo "~/git at your home directory. You can change this directory"
 	@echo "with the git_base setting in the install scripts."
+	@echo " "
+	@echo "########### Required Tasks ###########################################"
 	@echo "make tt-s  will get the latest state of sources to your linux computer"
 	@echo "make pr-ac will try to enable access to your ISP-programmer"
+	@echo "######################################################################"
 	@echo " "
 	@echo "Optional Tasks"
 	@echo "make tt-d  will get the latest documentation to your linux computer"
@@ -15,13 +18,20 @@ help:
 	@echo " "
 	@echo "Additional install of assembler optiboot source and documentation:"
 	@echo "make as-opti  assembler optiboot install"
+	@echo " "
 
 hilfe:
 	@echo "Liste der Dateien in diesem Verzeichnis:"
 	@ls -lh ./*
 	@echo " "
+	@echo " Das Standardverzeichnis für die git Archive ist"
+	@echo "~/git in Ihrem Home Verzeichnis. Sie können dieses Verzeichnis"
+	@echo "ändern, indem Sie die Variable git_base in den Installations-Scripts ändern."
+	@echo " "
+	@echo "############### Notwendige Schritte ############################################"
 	@echo "make tt-s  installiert den letzten Stand des Quellcodes auf ihren Linux-Computer"
 	@echo "make pr-ac versucht, den Zugriff auf Ihren ISP-programmer zu erlauben."
+	@echo "################################################################################"
 	@echo " "
 	@echo "Zusätzliche Aufgaben"
 	@echo "make tt-d  installiert die neueste Dokumentation auf ihren Linux-Computer"
@@ -30,6 +40,7 @@ hilfe:
 	@echo " "
 	@echo "Zusätzliche Installation der Assembler Optiboot Quellen und Dokumentation:"
 	@echo "make as-opti  assembler optiboot Installation"
+	@echo " "
 
 
 

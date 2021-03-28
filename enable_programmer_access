@@ -1,15 +1,9 @@
 #!/bin/bash
 rules="90-atmel.rules"
 rules_path="-"	# no $rules found
-if [ -e ../Linux/$rules ] # check if $rules is in ../Linux , you are in any sample directory or in Linux
+if [ -e ./$rules ] # check if $rules is in ./ 
 then
- rules_path="../Linux/"
-elif [ -e ./Linux/$rules ] # check, if you are in the trunk directory
-then
- rules_path="./Linux/"
-elif [ -e ./Software/trunk/Linux/${rules} ] # check, if you are in the transistortester directory
-then
- rules_path="./Software/trunk/Linux/"
+ rules_path="./"
 fi
 if [ ${rules_path} = "-" ] 
 then
@@ -48,6 +42,10 @@ if [ ${plug_mem} -eq 0 ] && [ ${dial_mem} -eq 0 ]
 then
  echo "User ${USER} is already member of the groups 'dialout' and 'plugdev', no action required."
 else  # you are not member of both groups, dialout and plugdev !
+ # make shure, that the groups plugdev and dialout exist
+ sudo groupadd -f plugdev
+ sudo groupadd -f dialout
+ # add this user to the groups plugdev and dialout
  sudo usermod -a -G dialout,plugdev ${USER}
  if [ $? -eq 0 ]
  then
@@ -59,4 +57,4 @@ fi
 # Finally we list the USB-serial devices of your system with registered identification
 echo " "
 echo "List of USB-serial devices at your system:"
-ls -l /dev/serial/by-id/* | cut -c40-
+ls -l /dev/serial/by-id/* | cut -c41-
