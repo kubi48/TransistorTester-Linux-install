@@ -34,6 +34,7 @@ if [ $? -eq 0 ]
 then
  mkdir -p ~/${my_tt_source}
  rsync -auv ~/${git_base}/${git_s_name}/Software/trunk ~/${my_tt_source}
+ rsync -auv ~/${git_base}/${git_s_name}/Software/picture-link.pdf ~/${my_tt_source}/.
  echo " "
  echo "Your ./${my_tt_source} directory is updated with the actual TransistorTester source"
  rdiffs=1
@@ -44,7 +45,7 @@ then
  fi
  if [ ${rdiffs} -ne 0 ]
  then   # copy is required, files are not the same
-  echo "Please type 'make prac' to enable access to ISP-Programmers!"
+  echo "Please type 'make pr-ac' to enable access to ISP-Programmers!"
  fi
  echo "You should change to one of the sample directories to build and and upload the firmware."
  echo "cd ~/${my_tt_source}/trunk/mega320_st7565_kit   ;# for chinese kit with graphic display"
